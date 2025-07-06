@@ -1,2 +1,2 @@
-# Mi-persona-favorita
+# Mi_persona_favorita
 frases

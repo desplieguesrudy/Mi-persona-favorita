@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Para Nao</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-adsense-account" content="ca-pub-4704501585981299">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Kaushan+Script&display=swap');
 
-    *,
-    ::before,
-    ::after {
+    * {
       box-sizing: border-box;
     }
 
@@ -25,7 +22,7 @@
       margin: 0;
       padding: 1rem;
       overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
+      cursor: default;
     }
 
     .envelope {
@@ -37,6 +34,7 @@
       --envelope-clr-bg-bottom: #e15349;
       --envelope-clr-bg-top: #d14d44;
       --envelope-clr-txt: #fff;
+      --envelope-transform: rotateY(0deg);
       --envelope-transform-hover: rotateY(180deg);
       --shadow-width: 85%;
       --shadow-blur: 15px;
@@ -51,10 +49,8 @@
       --fold-zindex-hover: 0;
       --fold-rotate-hover: rotateX(180deg);
       --fold-delay: calc(var(--duration) / 2);
-      --fold-delay-hover: calc(var(--duration) * .75);
-      --front-font-size: 1.1rem;
-      --snowman-width: 50px;
-      --bells-width: 30px;
+      --fold-delay-hover: calc(var(--duration) * 0.75);
+      --front-font-size: 1rem;
 
       position: relative;
       height: var(--envelope-height);
@@ -63,32 +59,30 @@
       cursor: pointer;
     }
 
-    @media (min-width: 720px) {
-      .envelope {
-        --letter-font-size: 1.2rem;
-        --snowman-width: 100px;
-        --bells-width: 60px;
-        --front-font-size: 1.5rem;
+    /* Hover en desktop: abrir sobre */
+    @media (hover: hover) and (pointer: fine) {
+      .envelope:hover {
+        --envelope-transform: var(--envelope-transform-hover);
+        --shadow-transform: rotateY(180deg);
+        --fold-rotate: var(--fold-rotate-hover);
+        --fold-delay: var(--fold-delay-hover);
+        --fold-zindex: var(--fold-zindex-hover);
+        --letter-height: var(--letter-height-hover);
+        --letter-delay: var(--letter-delay-hover);
+      }
+
+      /* Quitar toggle en hover para no conflicto */
+      .envelope.flipped {
+        --envelope-transform: var(--envelope-transform);
+        --shadow-transform: none;
+        --fold-rotate: rotateX(0deg);
+        --letter-height: calc(var(--envelope-height) - 2rem);
+        --letter-delay: 0ms;
       }
     }
 
-    .envelope::after {
-      content: "";
-      position: absolute;
-      top: 110%;
-      left: 50%;
-      width: var(--shadow-width);
-      height: 40px;
-      transition: var(--duration) ease-in-out;
-      transition-delay: var(--evelope-rotate-delay, 0ms);
-      transform: var(--shadow-transform);
-      translate: -50% 0;
-      border-radius: 50%;
-      background: rgba(56, 6, 6, 0.4);
-      filter: blur(var(--shadow-blur));
-    }
-
-    .envelope:hover {
+    /* En móvil, abrir/ cerrar con toggle clase flipped */
+    .envelope.flipped {
       --envelope-transform: var(--envelope-transform-hover);
       --shadow-transform: rotateY(180deg);
       --fold-rotate: var(--fold-rotate-hover);
@@ -98,6 +92,23 @@
       --letter-delay: var(--letter-delay-hover);
     }
 
+    /* Resto del CSS igual... */
+    .envelope::after {
+      content: "";
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      width: var(--shadow-width);
+      height: 40px;
+      transition: var(--duration) ease-in-out;
+      transition-delay: var(--evelope-rotate-delay, 0ms);
+      transform: var(--shadow-transform, none);
+      translate: -50% 0;
+      border-radius: 50%;
+      background: rgba(56, 6, 6, 0.4);
+      filter: blur(var(--shadow-blur));
+    }
+
     .envelope-inner {
       position: relative;
       width: 100%;
@@ -105,14 +116,14 @@
       transition: var(--duration) ease-in-out;
       transition-delay: var(--evelope-rotate-delay, 0ms);
       transform-style: preserve-3d;
-      transform: var(--envelope-transform, rotateY(0deg));
+      transform: var(--envelope-transform);
       display: grid;
     }
 
     .envelope-front,
     .envelope-back {
       position: relative;
-      grid-area: 1/1;
+      grid-area: 1 / 1;
       width: 100%;
       height: 100%;
       background-color: var(--envelope-clr-bg);
@@ -131,14 +142,15 @@
       position: absolute;
       top: 1em;
       right: 0.5em;
-      width: 15%;
+      font-size: 2rem;
+      user-select: none;
     }
 
     .envelope-front .address {
       text-align: left;
       font-size: var(--front-font-size);
       font-family: 'Kaushan Script', cursive;
-      line-height: 1.5;
+      user-select: none;
     }
 
     .envelope-back {
@@ -190,6 +202,7 @@
       transition: var(--duration) ease-in-out;
       transition-delay: var(--letter-delay);
       overflow: hidden;
+      user-select: none;
     }
 
     .letter p {
@@ -199,12 +212,12 @@
       color: var(--letter-clr-text);
     }
 
-    .custom-image,
     .custom-image2 {
       width: 60%;
       max-width: 150px;
       height: auto;
       object-fit: contain;
+      user-select: none;
     }
 
     .highlight {
@@ -226,42 +239,58 @@
   </style>
 </head>
 <body>
-
-<div class="envelope">
-  <div class="envelope-inner">
-
-    <div class="envelope-front">
-      <div class="postage-stamp">
-        ✨
+  <div class="envelope" tabindex="0" role="button" aria-pressed="false" aria-label="Abrir carta">
+    <div class="envelope-inner">
+      <div class="envelope-front">
+        <div class="postage-stamp">✨</div>
+        <div class="address">
+          <p><span>De:</span> <span>Rudy</span></p>
+          <p><span>Para:</span> <span>Mi persona favorita</span></p>
+        </div>
       </div>
-      <div class="address">
-        <p><span>De:</span> <span>Rudy</span></p>
-        <p><span>Para:</span> <span>Mi persona favorita</span></p>
+      <div class="envelope-back">
+        <div class="top-fold"></div>
+        <div class="letter">
+          <p style="font-size: 2.5rem;">✨</p>
+          <p>
+            Algunas mañanas nacen tranquilas, otras con prisa. Pero hay una constante que vuelve cualquier día más amable:
+            <span class="highlight">pensar en ti apenas despierto.</span>
+          </p>
+          <img
+            src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg"
+            alt="Flores amarillas y frase"
+            class="custom-image2"
+          />
+        </div>
       </div>
     </div>
-
-    <div class="envelope-back">
-      <div class="top-fold"></div>
-      <div class="letter">
-        <p style="font-size: 2.5rem;">✨</p>
-        <p>Algunas mañanas nacen tranquilas, otras con prisa. Pero hay una constante que vuelve cualquier día más amable:
-          <span class="highlight">pensar en ti apenas despierto.</span>
-        </p>
-        <img src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg" alt="Flores amarillas y frase" class="custom-image2">
-      </div>
-    </div>
-
   </div>
-</div>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4704501585981299" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('keydown', e => {
-    if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || (e.shiftKey && e.key === 'I')))) {
-      e.preventDefault();
-    }
-  });
-</script>
+  <script>
+    const envelope = document.querySelector('.envelope');
+
+    envelope.addEventListener('click', () => {
+      envelope.classList.toggle('flipped');
+      const pressed = envelope.classList.contains('flipped');
+      envelope.setAttribute('aria-pressed', pressed);
+    });
+
+    envelope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        envelope.classList.toggle('flipped');
+        const pressed = envelope.classList.contains('flipped');
+        envelope.setAttribute('aria-pressed', pressed);
+      }
+    });
+
+    // Bloquear menú contextual y teclas para inspección
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || (e.shiftKey && e.key === 'I')))) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>

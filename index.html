@@ -139,23 +139,29 @@
 
     .envelope-front .postage-stamp {
       position: absolute;
-      top: 1em;
-      right: 0.5em;
-      font-size: 2rem;
+      top: 0.45rem; /* subí un poco más */
+      right: 0.4rem; /* pegado un poco más a la esquina derecha */
+      font-size: 2.5rem; /* 25% más grande que 2rem */
       user-select: none;
+      line-height: 1;
     }
 
     .envelope-front .address {
       text-align: left;
       font-family: 'Kaushan Script', cursive;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: #9b2b26; /* rojo oscuro */
       user-select: none;
       font-weight: 600;
       text-shadow: 0 0 2px rgba(0,0,0,0.1);
-      padding-left: 1.2rem;
+      padding-left: 1.05rem; /* menos espacio para acercar al borde */
       padding-top: 0.8rem;
-      line-height: 1.3;
+      line-height: 1.25;
+      margin-top: 0; /* eliminar margen arriba para acercar más */
+    }
+
+    .envelope-front .address p {
+      margin: 0.2rem 0; /* espacio pequeño entre "Para" y "De" */
     }
 
     .envelope-back {
@@ -206,7 +212,8 @@
       text-align: center;
       transition: var(--duration) ease-in-out;
       transition-delay: var(--letter-delay);
-      overflow: auto;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       user-select: none;
     }
 
@@ -217,6 +224,7 @@
       user-select: none;
       color: #d94c45;
       text-shadow: 0 0 4px rgba(217, 76, 69, 0.7);
+      line-height: 1;
     }
 
     .letter p {
@@ -241,11 +249,26 @@
 
     @media (max-width: 480px) {
       .letter {
-        padding: 1em;
-        font-size: 0.85rem;
+        height: auto;
+        max-height: 70vh;
       }
+
+      .custom-image2 {
+        width: 100%;
+        max-width: none;
+        height: auto;
+      }
+
+      .envelope-front .postage-stamp {
+        top: 0.3rem;
+        right: 0.3rem;
+        font-size: 2rem;
+      }
+
       .envelope-front .address {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        padding-left: 0.8rem;
+        padding-top: 0.6rem;
       }
     }
   </style>
@@ -306,3 +329,4 @@
   </script>
 </body>
 </html>
+

@@ -59,7 +59,6 @@
       cursor: pointer;
     }
 
-    /* Hover en desktop: abrir sobre */
     @media (hover: hover) and (pointer: fine) {
       .envelope:hover {
         --envelope-transform: var(--envelope-transform-hover);
@@ -71,7 +70,6 @@
         --letter-delay: var(--letter-delay-hover);
       }
 
-      /* Quitar toggle en hover para no conflicto */
       .envelope.flipped {
         --envelope-transform: var(--envelope-transform);
         --shadow-transform: none;
@@ -81,7 +79,6 @@
       }
     }
 
-    /* En móvil, abrir/ cerrar con toggle clase flipped */
     .envelope.flipped {
       --envelope-transform: var(--envelope-transform-hover);
       --shadow-transform: rotateY(180deg);
@@ -141,7 +138,7 @@
       position: absolute;
       top: 1em;
       right: 0.5em;
-      font-size: 2rem;
+      font-size: 1.4rem;
       user-select: none;
     }
 
@@ -149,7 +146,7 @@
       text-align: left;
       font-family: 'Kaushan Script', cursive;
       font-size: 1.5rem;
-      color: #9b2b26; /* rojo oscuro */
+      color: #9b2b26;
       user-select: none;
       font-weight: 600;
       text-shadow: 0 0 2px rgba(0,0,0,0.1);
@@ -198,10 +195,10 @@
       transform: translateX(-50%);
       background: var(--letter-clr-bg);
       z-index: 2;
-      padding: 2em 3em;
+      padding: 1.5em 3em 1em 3em;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.6rem;
       align-items: center;
       text-align: center;
       transition: var(--duration) ease-in-out;
@@ -211,9 +208,9 @@
     }
 
     .letter span {
-      font-size: 2rem;
+      font-size: clamp(1.6rem, 4vw, 2rem);
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0rem;
       user-select: none;
       color: #d94c45;
       text-shadow: 0 0 4px rgba(217, 76, 69, 0.7);
@@ -221,6 +218,7 @@
 
     .letter p {
       margin: 0;
+      padding-top: 0;
       font-weight: 600;
       width: 100%;
       color: #9b2b26;
@@ -241,27 +239,15 @@
 
     @media (max-width: 480px) {
       .letter {
-        padding: 1em;
+        padding: 0.8em 1em 0.5em 1em;
         font-size: 0.85rem;
-        height: auto;
-        max-height: 70vh;
-        overflow-y: auto;
-      }
-      .envelope-front .postage-stamp {
-        font-size: 1.5rem;
-        top: 0.8em;
-        right: 0.5em;
       }
       .envelope-front .address {
         font-size: 1.2rem;
-        padding-left: 1rem;
-        padding-top: 0.6rem;
       }
-      .custom-image2 {
-        width: 100%;
-        max-width: 140px;
-        height: auto;
-        object-fit: contain;
+      .letter span {
+        font-size: 1.5rem;
+        margin-bottom: 0;
       }
     }
   </style>
@@ -281,8 +267,7 @@
         <div class="letter">
           <span>✨</span>
           <p>
-            Ya es viernes Nao y seguro ya hiciste más de lo que te das crédito. Ojalá este día te regale algo simple pero bonito…. como esas cosas que a veces solo notan los que saben mirar con calma. Y tú, tienes de eso.
-            <!-- Pega aquí todo el texto que quieras y se ajustará solo -->
+            Ya es viernes Naoo y seguro ya hiciste más de lo que te das crédito. Ojalá este día te regale algo simple pero bonito… como esas cosas que a veces solo notan los que saben mirar con calma. Y tu, tienes de eso.
           </p>
           <img
             src="https://img.freepik.com/fotos-premium/imagen-flores-amarillas-palabras-sol-citadas-ella_1191871-60686.jpg"
@@ -312,7 +297,6 @@
       }
     });
 
-    // Bloquear menú contextual y teclas para inspección
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if (e.key === 'F12' || (e.ctrlKey && (e.key === 'u' || (e.shiftKey && e.key === 'I')))) {
@@ -322,5 +306,3 @@
   </script>
 </body>
 </html>
-
-
